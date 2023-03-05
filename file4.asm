@@ -10,7 +10,7 @@ e dd 0
 .code 
 main:
  mov eax, a
- mul b
+ imul b
  add eax, d
  mov e, eax
  ret
