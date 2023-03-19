@@ -2,26 +2,42 @@
 .model flat, stdcall
 
 .data
-a dd 10
-b dd 2
-d dd 3
+ a dd 10001111B
+ b dd 11100101B
+ k db 0
 
-.data?
-e db ?
-f db ?
+
 
 .code
 main:
- mov eax, a
- cdq
- div b
- mov e, dl
- mov eax, a
- cdq
- idiv d
- mov f, dl
- mov al, e
- mov ah, f
+ mov cl, 0 
+ mov edx, 1
+ 
+ Cycle:
+  cmp cl, 32
+  jz Finish
+  mov eax, a
+  mov ebx, b
+  and eax, edx
+  and ebx, edx
+  cmp eax, ebx
+  jz Equal
+  jmp Different
+
+ Different:
+  shl edx, 1
+  inc cl
+  inc k
+  jmp Cycle
+
+
+ Equal:
+  shl edx, 1
+  inc cl
+  jmp Cycle
+ 
+
+ Finish:
+
  ret
 end main
- 

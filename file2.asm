@@ -2,16 +2,31 @@
 .model flat, stdcall
 
 .data
-
-av dd 1
-bv dd 2
-cv dd 0
+a dd -1
+b dd 14
 
 .code
+
 main:
- mov eax, av
- mov ebx, bv
- sub eax, ebx
- mov cv, eax
+ mov eax, a
+ imul eax, a
+ imul eax, 5
+ add eax, 2
+ mov ebx, a
+ imul ebx, -7
+ add eax, ebx
+ mov ebx, b
+ cmp eax, ebx
+ je Point
+ mov eax, 0
+ jmp Finish
+ 
+ Point:
+   mov eax,0
+   mov al, 1
+ 
+ Finish:
+
  ret
 end main
+

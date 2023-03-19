@@ -1,17 +1,30 @@
 .486
 .model flat, stdcall
 
-.data
-a dd 3
-b dd 3
-d dd 1
-e dd 0
 
-.code 
+.data 
+ n db 6
+
+.data? 
+ F dd ?
+
+.code
+
 main:
- mov eax, a
- imul b
- add eax, d
- mov e, eax
+ mov cl, n
+ mov eax, 1
+ mov ebx, 1
+ 
+ Cycle:
+  cmp cl, 1
+  jbe Finish
+  mov edx, eax
+  add eax, ebx
+  mov ebx, edx
+  dec cl
+  jmp Cycle
+
+ Finish:
+  mov F, eax
  ret
 end main

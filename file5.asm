@@ -2,26 +2,25 @@
 .model flat, stdcall
 
 .data
-x1 dw 2000 ; 2 байта
-x2 dw -2000 
-y1 dw 2000
-y2 dw -2000
-
-.data?
- sq dd ?
+ a dd 111000011B
+ b dd  10001011B
 
 .code
 main:
- movsx eax, x1
- movsx ebx, x2
- sub eax, ebx
- mov sq, eax
- movsx ebx, y1
- movsx eax, y2
- sub ebx, eax
- mov eax, sq
- imul ebx
- mov sq, eax
- 
- ret
+ mov eax, a
+ mov cl, 31
+
+ Cycle:
+  cmp b, eax
+  jae Finish
+  mov ebx, 1
+  shl ebx, cl
+  not ebx
+  and eax, ebx
+  dec cl
+  jmp Cycle
+
+ Finish:
+  mov a, eax
+  ret
 end main

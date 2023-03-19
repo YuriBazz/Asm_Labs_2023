@@ -1,18 +1,27 @@
 .486
 .model flat, stdcall
 
-.data
-a dd 3
-b dd 2
-cv dd 17
-dv dd 0
+.data 
+ a dd 4
+ b dd 2
 
+.data?
+ gcd dd ?
 .code 
-main:
+ main:
  mov eax, a
- mul b
- div cv
- mov dv, edx
+ mov ebx, b
+ 
+ Cycle:
+  cmp ebx, 0
+  jz Finish
+  mov edx, 0
+  div ebx
+  mov eax, ebx
+  mov ebx, edx
+  jmp Cycle
+
+ Finish:
+  mov gcd, eax
  ret
 end main
- 
