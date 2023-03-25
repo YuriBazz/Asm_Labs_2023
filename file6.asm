@@ -2,42 +2,43 @@
 .model flat, stdcall
 
 .data
- a dd 10001111B
- b dd 11100101B
- k db 0
+k dd 3
+list dd 1, 7, 9, 10, 12
+len equ 5
 
+.data?
+newList dd ?, ?, ?, ?, ?
+res dd ?
 
-
-.code
+.code 
 main:
- mov cl, 0 
- mov edx, 1
+ mov ecx, 0
+ mov ebx, 0
  
- Cycle:
-  cmp cl, 32
-  jz Finish
-  mov eax, a
-  mov ebx, b
-  and eax, edx
-  and ebx, edx
-  cmp eax, ebx
-  jz Equal
-  jmp Different
+ Cycle: 
+  cmp ecx, len
+  je Finish
+  mov eax, list[4*ecx]
+  cdq
+  idiv k
+  cmp edx, 0
+  je Multiples
+  jmp NotMultiples
 
- Different:
-  shl edx, 1
-  inc cl
-  inc k
+ Multiples:
+  mov eax, list[4*ecx]
+  mov newList[4*ebx], eax
+  inc ecx
+  inc ebx
   jmp Cycle
 
-
- Equal:
-  shl edx, 1
-  inc cl
+ NotMultiples:
+  inc ecx
   jmp Cycle
- 
 
  Finish:
+  mov res, ebx 
+  
 
  ret
 end main

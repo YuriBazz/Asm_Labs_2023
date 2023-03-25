@@ -2,25 +2,28 @@
 .model flat, stdcall
 
 .data
- a dd 111000011B
- b dd  10001011B
+list db 1, 2, 3, 4
+len equ 4
+
+.data?
+reversedList db ?, ?, ?, ?
 
 .code
 main:
- mov eax, a
- mov cl, 31
-
+ mov ecx, len
+ dec ecx
+ mov ebx, 0
+ 
  Cycle:
-  cmp b, eax
-  jae Finish
-  mov ebx, 1
-  shl ebx, cl
-  not ebx
-  and eax, ebx
-  dec cl
+  cmp ebx, len
+  je Finish
+  mov al, list[ecx]
+  mov reversedList[ebx], al
+  inc ebx
+  dec ecx
   jmp Cycle
-
+ 
  Finish:
-  mov a, eax
-  ret
+
+ ret
 end main

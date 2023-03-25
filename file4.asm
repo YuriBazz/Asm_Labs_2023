@@ -1,30 +1,39 @@
 .486
 .model flat, stdcall
 
+.data
+list dw 1, -23, 15, 137
+len equ 4
 
-.data 
- n db 6
-
-.data? 
- F dd ?
+.data?
+newList db ?, ?, ?, ?
 
 .code
-
 main:
- mov cl, n
- mov eax, 1
- mov ebx, 1
+ mov ecx, 0
+ mov bl, 10
  
  Cycle:
-  cmp cl, 1
-  jbe Finish
-  mov edx, eax
-  add eax, ebx
-  mov ebx, edx
-  dec cl
+  cmp ecx, len
+  je Finish
+  mov ax, list[2*ecx]
+  idiv bl
+  cmp ah, 0
+  jge Positive
+  jmp Negative
+
+ Positive:
+  mov newList[ecx], ah
+  inc ecx
+  jmp Cycle
+ 
+ Negative:
+  neg ah
+  mov newList[ecx], ah
+  inc ecx
   jmp Cycle
 
  Finish:
-  mov F, eax
+
  ret
 end main
